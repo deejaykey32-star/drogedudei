@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">DrogEduDei</string>
+    <string name="title_activity_main">DrogEduDei</string>
+    <string name="package_name">pl.drogedudei.app</string>
+    <string name="custom_url_scheme">pl.drogedudei.app</string>
+    <string name="widget_desc">Pytanie dnia z przepisów, seria dni i minuty nauki</string>
+    <string name="widget_label">DrogEduDei – pytanie dnia</string>
+</resources>

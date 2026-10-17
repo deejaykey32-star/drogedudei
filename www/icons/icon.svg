@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="26" fill="#0f1724"/><circle cx="60" cy="62" r="50" fill="#ffb300"/><g transform="translate(12 6) scale(.96)">
+  <!-- ogon -->
+  <path d="M18 78 Q2 60 10 42 Q16 58 24 62 Q14 46 22 32 Q28 52 32 60" fill="#b3001b"/>
+  <path d="M14 70 Q6 56 12 48" stroke="#1b7f3b" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- tułów -->
+  <ellipse cx="46" cy="82" rx="28" ry="22" fill="#e1172b"/>
+  <path d="M30 80 Q44 96 64 84" stroke="#a80014" stroke-width="3" fill="none"/>
+  <!-- nogi -->
+  <path d="M40 102 L38 108 M38 108 l-5 1 M38 108 l4 1 M54 102 L56 108 M56 108 l-4 1 M56 108 l5 1" stroke="#ffb300" stroke-width="3" stroke-linecap="round"/>
+  <!-- głowa -->
+  <circle cx="52" cy="56" r="18" fill="#e1172b"/>
+  <!-- grzebień spod czapki -->
+  <path d="M34 46 q-6 -4 -2 -9 q2 4 6 4 z" fill="#ff2d3f"/>
+  <!-- korale -->
+  <path d="M60 72 Q62 84 56 84 Q52 80 56 72 Z" fill="#ff2d3f"/>
+  <!-- oko -->
+  <circle cx="58" cy="54" r="5.5" fill="#fff"/><circle cx="59.5" cy="54.5" r="2.8" fill="#111"/><circle cx="60.5" cy="53.5" r="1" fill="#fff"/>
+  <path d="M60 64 L78 69 L60 74 Z" fill="#ffb300" stroke="#c77700" stroke-width="1"/><path d="M60 69 L74 69" stroke="#c77700" stroke-width="1"/>
+  <!-- czapka szofera: denko, otok z szachownicą TAXI, daszek -->
+  <g transform="translate(52 44) scale(.74 .8) translate(-52 -31)">
+  <path d="M24 30 Q48 14 82 26 L80 34 Q50 30 24 36 Z" fill="#1c1c22"/>
+  <rect x="22" y="28" width="56" height="7" rx="2" fill="#26262e"/>
+  <rect x="22" y="28" width="5.6" height="3" fill="#ffd400"/><rect x="27.6" y="31" width="5.6" height="3" fill="#111"/><rect x="33.2" y="28" width="5.6" height="3" fill="#ffd400"/><rect x="38.8" y="31" width="5.6" height="3" fill="#111"/><rect x="44.4" y="28" width="5.6" height="3" fill="#ffd400"/><rect x="50" y="31" width="5.6" height="3" fill="#111"/><rect x="55.599999999999994" y="28" width="5.6" height="3" fill="#ffd400"/><rect x="61.199999999999996" y="31" width="5.6" height="3" fill="#111"/><rect x="66.8" y="28" width="5.6" height="3" fill="#ffd400"/><rect x="72.4" y="31" width="5.6" height="3" fill="#111"/>
+  <path d="M64 34 Q84 32 90 40 Q78 40 62 38 Z" fill="#0d0d10"/>
+  <circle cx="46" cy="25" r="3.2" fill="#ffd400" stroke="#b38f00" stroke-width="1"/>
+  </g>
+  <!-- skrzydło z kierownicą -->
+  <path d="M30 78 Q40 64 56 74 Q48 90 32 88 Z" fill="#c4001a"/>
+  <circle cx="64" cy="92" r="9" fill="none" stroke="#333" stroke-width="3"/><circle cx="64" cy="92" r="2" fill="#333"/><path d="M55 92 h18 M64 92 v8" stroke="#333" stroke-width="2"/>
+</g></svg>

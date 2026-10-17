@@ -1,0 +1,24 @@
+{
+  "name": "drogedudei",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DrogEduDei – nauka przepisów ruchu drogowego: teoria, praktyka, psychotesty, zdrowie kierowcy",
+  "scripts": {
+    "serve": "node tools/serve.mjs",
+    "vendor": "node tools/vendor.mjs",
+    "osm:build": "node tools/osm/build.mjs",
+    "android:sync": "npm run vendor && npx cap sync android",
+    "android:build": "npm run android:sync && cd android && .\\gradlew.bat assembleDebug && cd .. && node tools/dist.mjs",
+    "dist": "node tools/dist.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.6.9",
+    "@capacitor/core": "^7.6.9",
+    "leaflet": "^1.9.4",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.6.9"
+  },
+  "type": "module"
+}

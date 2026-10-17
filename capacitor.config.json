@@ -1,0 +1,7 @@
+{
+  "appId": "pl.drogedudei.app",
+  "appName": "DrogEduDei",
+  "webDir": "www",
+  "android": { "allowMixedContent": false },
+  "server": { "androidScheme": "https" }
+}

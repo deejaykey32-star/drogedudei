@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@drawable/widget_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/w_title"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="🐓 DrogEduDei"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/w_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Otwórz ›"
+            android:textColor="#FFB300"
+            android:textStyle="bold"
+            android:padding="4dp"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/w_stats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="🔥 0   ⏱️ 0/20 min"
+        android:textColor="#9FB0CC"
+        android:textSize="13sp" />
+
+    <ProgressBar
+        android:id="@+id/w_progress"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_marginTop="4dp"
+        android:max="20"
+        android:progress="0"
+        android:progressTint="#FFB300" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="❓ Pytanie dnia"
+        android:textColor="#E1172B"
+        android:textStyle="bold"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/w_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Czy przed znakiem STOP możesz tylko zwolnić?"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:maxLines="5"
+        android:ellipsize="end" />
+
+    <TextView
+        android:id="@+id/w_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="#E8EEF9"
+        android:textSize="13sp"
+        android:maxLines="4"
+        android:ellipsize="end"
+        android:visibility="gone" />
+
+    <!-- odstęp: przyciski zawsze na dole, wyjaśnienie tuż pod pytaniem -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/w_answers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/w_yes"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="44dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/btn_yes"
+            android:text="TAK"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/w_no"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="44dp"
+            android:background="@drawable/btn_no"
+            android:text="NIE"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/w_next"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/btn_next"
+        android:text="Następne pytanie ›"
+        android:textColor="#1A1200"
+        android:textStyle="bold"
+        android:visibility="gone" />
+</LinearLayout>

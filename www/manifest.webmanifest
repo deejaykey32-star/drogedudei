@@ -1,0 +1,21 @@
+{
+  "name": "DrogEduDei – przepisy, egzamin, jazda",
+  "short_name": "DrogEduDei",
+  "description": "Nauka przepisów ruchu drogowego dla wszystkich kategorii, egzamin próbny, symulator jazdy egzaminacyjnej w Katowicach, psychotesty i porady dla kierowców.",
+  "lang": "pl",
+  "start_url": "./#/",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f1724",
+  "theme_color": "#0f1724",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Egzamin próbny", "url": "./#/egzamin" },
+    { "name": "Symulator – Katowice", "url": "./#/symulator" },
+    { "name": "Psychotesty", "url": "./#/psychotesty" }
+  ]
+}
