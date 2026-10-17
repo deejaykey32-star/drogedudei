@@ -8,3 +8,5 @@ android/app/src/main/assets/public/
 tools/iconsrc/
 tools/*.html
 .claude/
+*.apk
+!www/download/*.apk

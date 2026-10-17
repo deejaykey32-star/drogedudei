@@ -22,14 +22,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <!-- Deep link z widgetu Kuraka do ćwiczeń i pytań -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="drogedudei" />
+            </intent-filter>
+
         </activity>
 
         <receiver
             android:name=".DrogWidget"
             android:label="@string/widget_label"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="pl.drogedudei.app.WIDGET_YES" />
+                <action android:name="pl.drogedudei.app.WIDGET_NO" />
+                <action android:name="pl.drogedudei.app.WIDGET_NEXT" />
+                <action android:name="pl.drogedudei.app.WIDGET_ROTATE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -47,7 +60,14 @@
         </provider>
     </application>
 
-    <!-- Permissions -->
-
+    <!-- Uprawnienia -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- Android 11+: dostęp do usług syntezy mowy (TTS) -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
 </manifest>

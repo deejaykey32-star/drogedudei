@@ -23,7 +23,8 @@ import java.util.Locale;
  *  - setState: zapis stanu (seria dni, minuty, pytania dnia) dla widżetu i jego odświeżenie,
  *  - consumeAnswers: odczyt (i wyzerowanie) liczby dobrych odpowiedzi udzielonych w widżecie,
  *  - speak / stop: lektor Google (TextToSpeech, język polski),
- *  - setSystemBars: jasne/ciemne ikony pasków systemowych zgodnie z motywem aplikacji.
+ *  - setSystemBars: jasne/ciemne ikony pasków systemowych zgodnie z motywem aplikacji,
+ *  - refreshWidget: natychmiastowe odświeżenie widżetów na pulpicie.
  */
 @CapacitorPlugin(name = "WidgetBridge")
 public class WidgetBridgePlugin extends Plugin {
@@ -45,6 +46,7 @@ public class WidgetBridgePlugin extends Plugin {
             synchronized (this) { ttsInitDone = true; c = pendingSpeak; pendingSpeak = null; }
             if (c != null) doSpeak(c);
         });
+        DrogWidgetAlarm.scheduleNext(getContext());
     }
 
     @PluginMethod
@@ -61,6 +63,7 @@ public class WidgetBridgePlugin extends Plugin {
         }
         ed.apply();
         DrogWidget.updateAll(ctx);
+        DrogWidgetAlarm.scheduleNext(ctx);
         call.resolve();
     }
 
@@ -72,6 +75,13 @@ public class WidgetBridgePlugin extends Plugin {
         ret.put("total", p.getInt("pendingTotal", 0));
         p.edit().putInt("pendingCorrect", 0).putInt("pendingTotal", 0).apply();
         call.resolve(ret);
+    }
+
+    @PluginMethod
+    public void refreshWidget(PluginCall call) {
+        Context ctx = getContext();
+        DrogWidget.updateAll(ctx);
+        call.resolve();
     }
 
     @PluginMethod

@@ -1,10 +1,10 @@
 // Pulpit, krąg 20 minut, plan do egzaminu, ustawienia, strona aplikacji Android.
 import { $, esc, md, kurakSays, toast, fmtDate } from '../ui.js';
 import * as store from '../store.js';
-import { KURAK_TIPS } from '../kurak.js';
+import { kurakSVG, KURAK_TIPS } from '../kurak.js';
 import { CHAPTERS, PARTS, CATEGORIES } from '../content/book.js';
 import { QUESTIONS } from '../content/questions.js';
-import { isNative } from '../native.js';
+import { isNative, pushWidget } from '../native.js';
 
 const nextChapter = () => CHAPTERS.find((c) => !store.get().chapters[c.id]?.read) || CHAPTERS[0];
 
@@ -20,6 +20,71 @@ function milestones(s) {
     ['Symulator', simOk >= 1],
     ['Gotowy!', passed >= 5 && simOk >= 2],
   ];
+}
+
+export function apkCardHtml({ compact = false } = {}) {
+  const native = isNative();
+  if (native) {
+    return `
+    <div class="card apk-card" style="margin-top:16px">
+      <div class="apk-head">
+        <span class="apk-av">${kurakSVG(64)}</span>
+        <div class="grow">
+          <h2>🐓 Jesteś w aplikacji DrogEduDei na Androida!</h2>
+          <p class="muted" style="margin:4px 0 0">Wszystkie moduły, lektor Google TTS i symulator Katowic działają natywnie w telefonie.</p>
+        </div>
+        <button class="btn primary" id="btnSyncWidget">🔄 Zsynchronizuj widżet teraz</button>
+      </div>
+      <div class="card" style="margin-top:12px;background:var(--card2)">
+        <h3 style="margin-top:0">📱 Jak dodać widżet Kuraka na pulpit telefonu?</h3>
+        <ol class="apk-steps" style="padding-left:18px">
+          <li>Wyjdź na <strong>ekran główny</strong> telefonu (pulpit).</li>
+          <li><strong>Przytrzymaj palec</strong> na pustym miejscu ekranu, aż pojawi się menu.</li>
+          <li>Wybierz opcję <strong>Widżety</strong>.</li>
+          <li>Odszukaj <strong>DrogEduDei</strong> na liście aplikacji.</li>
+          <li>Przytrzymaj i upuść widżet na pulpit. Możesz dopasować jego rozmiar (np. 4×2 kafelki).</li>
+          <li>Pytanie dnia TAK/NIE rotuje na pulpicie co 15 minut – odpowiadasz bez otwierania aplikacji i zdobywasz punkty XP!</li>
+        </ol>
+      </div>
+    </div>`;
+  }
+
+  const host = typeof location !== 'undefined' && location.origin ? location.origin : 'https://drogedudei.pages.dev';
+  const apkPath = 'download/DrogEduDei.apk';
+  const fullApkUrl = `${host}/${apkPath}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=168x168&margin=4&data=${encodeURIComponent(fullApkUrl)}`;
+
+  return `
+  <div class="card apk-card" style="margin-top:16px">
+    <div class="apk-head">
+      <span class="apk-av">${kurakSVG(64)}</span>
+      <div class="grow">
+        <h2>📱 DrogEduDei na Androida</h2>
+        <p class="muted" style="margin:4px 0 0">Natywna aplikacja: lektor Google TTS, widżet na pulpit telefonu, symulator WORD Katowice i pełny tryb offline · <strong>APK 5.7 MB</strong></p>
+      </div>
+      <a class="btn primary big" href="${apkPath}" download="DrogEduDei.apk">⬇ Pobierz APK · 5.7 MB</a>
+    </div>
+    ${compact ? `
+      <div class="row" style="margin-top:12px;justify-content:space-between">
+        <span class="muted small">Zawiera interaktywny widżet na pulpit z pytaniem dnia TAK/NIE i serią dni.</span>
+        <a class="btn ghost small" href="#/android">📱 Zobacz kod QR i widżet ›</a>
+      </div>
+    ` : `
+      <div class="apk-body">
+        <div class="apk-qr-box center">
+          <img class="apk-qr" src="${qrUrl}" alt="Kod QR do pobrania DrogEduDei.apk" width="160" height="160">
+          <div class="muted small" style="margin-top:6px">Zeskanuj aparatem telefonu<br>(pobierz bezpośrednio na telefon)</div>
+        </div>
+        <ol class="apk-steps">
+          <li><strong>Pobierz APK:</strong> Kliknij przycisk <em>Pobierz APK</em> lub zeskanuj kod QR aparatem telefonu.</li>
+          <li><strong>Zezwól na instalację:</strong> Otwórz pobrany plik na telefonie. W razie pytania zaznacz <em>Ustawienia → Zezwalaj z tego źródła</em>.</li>
+          <li><strong>Uruchom aplikację:</strong> Zainstaluj DrogEduDei – pełna baza pytań, znaki i symulator działają offline.</li>
+          <li><strong>Dodaj widżet na pulpit:</strong> Przytrzymaj palec na wolnym miejscu ekranu głównego telefonu → <em>Widżety</em> → <em>DrogEduDei</em>.</li>
+          <li><strong>Ćwicz z pulpitu:</strong> Pytanie dnia rotuje co 15 minut. Odpowiadasz TAK/NIE bez wchodzenia do aplikacji, zbierasz punkty XP, a przycisk <em>Ćwicz z Kurakiem 🚦</em> przenosi Cię wprost do nauki!</li>
+        </ol>
+      </div>
+    `}
+  </div>`;
 }
 
 export function dashboard(el) {
@@ -69,8 +134,8 @@ export function dashboard(el) {
   <div class="card" id="qday"><p class="qtext" style="margin-top:0">${esc(qd.q)}</p>
     <div class="answers tn"><button class="ans" data-a="1">TAK</button><button class="ans" data-a="0">NIE</button></div><div id="qdayEx"></div></div>
 
-  <h2>📱 DrogEduDei na Androida</h2>
-  <a class="card tile" href="#/android"><span class="tico">🤖</span><div><h3>Aplikacja + widżet na ekran główny</h3><p>Pytanie dnia w widżecie, seria dni, lektor Google, działa offline.</p></div></a>
+  <h2>📱 DrogEduDei na telefon (Android)</h2>
+  ${apkCardHtml({ compact: true })}
 
   <h2>Wskazówki Kuraka</h2>
   <div class="grid g2">
@@ -147,11 +212,17 @@ export function settings(el) {
     <label class="f">Lektor (Kurak czyta na głos)<select id="sVoice"><option value="1">włączony</option><option value="0">wyłączony</option></select></label>
   </div>
   <div class="row" style="margin-top:12px"><button class="btn primary" id="sSave">Zapisz</button></div>
+
+  <h2>📱 Aplikacja na Androida i Widżet</h2>
+  ${apkCardHtml({ compact: true })}
+
   <h2>Historia</h2>
   <div class="card"><h3 style="margin-top:0">Egzaminy próbne</h3>${s.exams.length ? `<ul>${s.exams.slice(0, 10).map((e) => `<li>${fmtDate(e.date)} · kat. ${esc(e.cat)} · ${e.score}/${e.max} ${e.pass ? '✅' : '❌'}</li>`).join('')}</ul>` : '<p class="muted">Brak.</p>'}</div>
   <div class="card"><h3 style="margin-top:0">Symulator jazdy</h3>${s.sim.length ? `<ul>${s.sim.slice(0, 10).map((e) => `<li>${fmtDate(e.date)} · kat. ${esc(e.cat)} · ${esc(e.result)} ${e.faults?.length ? `(${e.faults.length} uwag)` : ''}</li>`).join('')}</ul>` : '<p class="muted">Brak.</p>'}</div>
+
   <h2>Kopia zapasowa</h2>
   <div class="row"><button class="btn" id="sExport">⬇ Eksportuj postęp</button><label class="btn">⬆ Importuj<input type="file" id="sImport" accept="application/json" hidden></label><button class="btn red" id="sReset">Wyzeruj postęp</button></div>`;
+
   $('#sTheme', el).value = p.theme;
   $('#sVoice', el).value = p.voice ? '1' : '0';
   $('#sSave', el).onclick = () => {
@@ -171,14 +242,93 @@ export function settings(el) {
 }
 
 export async function android(el) {
-  let apk = null;
-  try { const r = await fetch('drogedudei.apk', { method: 'HEAD' }); if (r.ok) apk = { size: Number(r.headers.get('content-length')) || 0 }; } catch { /* brak */ }
+  const s = store.get();
   el.innerHTML = `<h1>📱 DrogEduDei na Androida</h1>
-  <div class="card">${kurakSays(isNative() ? 'Jesteś w aplikacji na Androida! Dodaj widżet DrogEduDei na ekran główny: przytrzymaj palec na pulpicie → Widżety → DrogEduDei.' : 'Zainstaluj aplikację i dodaj widżet – pytanie dnia będzie czekać na ekranie telefonu.')}</div>
-  <div class="grid g2" style="margin-top:12px">
-    <div class="card"><h3 style="margin-top:0">🤖 Aplikacja natywna (APK)</h3><p>Lektor Google (TTS), widżet na ekran główny, pełny tryb offline (mapa Katowic, symulator, podręcznik).</p>
-      ${apk ? `<a class="btn primary" href="drogedudei.apk" download>⬇ Pobierz APK${apk.size ? ` · ${(apk.size / 1048576).toFixed(1)} MB` : ''}</a>` : '<p class="muted">Plik APK budujesz poleceniem <code>npm run android:build</code> – trafi do <code>www/drogedudei.apk</code>.</p>'}</div>
-    <div class="card"><h3 style="margin-top:0">🧩 Widżet</h3><ul><li>🔥 seria dni i ⏱️ minuty dziś</li><li>❓ pytanie dnia TAK/NIE – odpowiadasz bez otwierania aplikacji</li><li>✅ wyjaśnienie i +3 XP za dobrą odpowiedź</li><li>▶ „Następne” – kolejne pytanie</li></ul></div>
-    <div class="card"><h3 style="margin-top:0">🌐 Wersja PWA</h3><p>W Chrome: menu ⋮ → „Zainstaluj aplikację” / „Dodaj do ekranu głównego”. Działa offline po pierwszym uruchomieniu.</p></div>
+  <div class="card">${kurakSays(isNative() ? 'Jesteś w natywnej aplikacji DrogEduDei! Dodaj widżet na ekran główny telefonu, aby codziennie powtarzać przepisy i utrzymać serię.' : 'Pobierz plik APK, zainstaluj aplikację i umieść widżet Kuraka na pulpicie telefonu. Pytanie dnia i punkty XP czekają!')}</div>
+
+  ${apkCardHtml({ compact: false })}
+
+  <h2>🧩 Podgląd widżetu na pulpicie telefonu</h2>
+  <div class="card" style="max-width:440px;margin:12px auto;background:#111827;border:1.5dp solid #2C3A52;border-radius:24px;padding:14px;box-shadow:0 12px 36px rgba(0,0,0,.5)">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:38px;height:38px;border-radius:50%;overflow:hidden;flex:none">${kurakSVG(38)}</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:bold;color:#F3F4F6">Kurak · DrogEduDei</div>
+        <div style="font-size:11px;color:#9CA3AF">Kierowco! Znasz odpowiedź?</div>
+      </div>
+      <span style="font-size:10px;font-weight:bold;background:#1E293B;color:#FDE68A;border:1px solid #F59E0B;padding:3px 8px;border-radius:12px">🚦 Kat. ${esc(s.profile.cat)}</span>
+      <span style="font-size:14px;background:#1E293B;padding:4px 8px;border-radius:50%;color:#E2E8F0">🔁</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin:10px 0;background:#1A2333;padding:10px;border-radius:14px">
+      <div style="font-size:26px;width:44px;height:44px;display:grid;place-items:center;background:#151E2E;border:1.5px solid #F59E0B;border-radius:12px;flex:none">🛑</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:bold;color:#FFF">Czy przed znakiem STOP przy pustej drodze możesz tylko zwolnić?</div>
+        <div id="mockFeedback" style="display:none;font-size:11px;color:#E2E8F0;margin-top:4px">❌ Błąd (poprawnie: NIE). Zatrzymanie przed znakiem STOP jest bezwzględnie obowiązkowe!</div>
+      </div>
+    </div>
+    <div id="mockAnswers" style="display:flex;gap:8px">
+      <button class="btn" id="mockYes" style="flex:1;background:#15803D;color:#fff;border-radius:12px;min-height:38px">TAK ✔</button>
+      <button class="btn" id="mockNo" style="flex:1;background:#B91C1C;color:#fff;border-radius:12px;min-height:38px">NIE ✖</button>
+    </div>
+    <button class="btn" id="mockNext" style="display:none;width:100%;background:#D97706;color:#1F2937;font-weight:bold;border-radius:12px;min-height:38px;margin-top:6px">Następne pytanie 🔁</button>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;font-size:11px;color:#94A3B8">
+      <span>🔥 ${s.streak.count} dni · ⏱️ 0/20 min · ⭐ ${s.xp} XP</span>
+      <a href="#/trening" style="background:#D97706;color:#fff;padding:4px 10px;border-radius:10px;text-decoration:none;font-weight:bold">Ćwicz z Kurakiem 🚦</a>
+    </div>
+  </div>
+
+  <h2>Zalety wersji natywnej</h2>
+  <div class="grid g3" style="margin-top:12px">
+    <div class="card"><h3 style="margin-top:0">🤖 Pełny tryb offline</h3><p class="muted">Cała mapa Katowic (WORD), 36 rozdziałów podręcznika, atlas znaków i setki pytań działają bez połączenia z internetem.</p></div>
+    <div class="card"><h3 style="margin-top:0">🗣️ Lektor Google (TTS)</h3><p class="muted">Kurak czyta polecenia egzaminatora, treść pytań i rozdziałów korzystając z natywnego głosu polskiego lektora w telefonie.</p></div>
+    <div class="card"><h3 style="margin-top:0">🧩 Widżet na pulpit</h3><p class="muted">Pytanie dnia czeka bezpośrednio na pulpicie telefonu. Odpowiadasz od razu i zdobywasz punkty XP!</p></div>
   </div>`;
+
+  const btnSync = $('#btnSyncWidget', el);
+  if (btnSync) {
+    btnSync.onclick = async () => {
+      btnSync.disabled = true;
+      btnSync.textContent = 'Synchronizuję…';
+      try {
+        const tn = QUESTIONS.filter((q) => q.t === 'tn' && !q.img && !/ (ten|tego|tym) znak/i.test(q.q));
+        const seed = Number(store.today().replace(/-/g, ''));
+        const qs = Array.from({ length: 12 }, (_, i) => tn[(seed * 7 + i * 13) % tn.length]).map((q) => ({ q: q.q, c: q.c, e: q.e }));
+        await pushWidget({ streak: s.streak.count, xp: s.xp, min: Math.floor(store.day().sec / 60), goal: s.profile.dailyGoal, cat: s.profile.cat, date: store.today(), questions: qs });
+        if (window.Capacitor?.Plugins?.WidgetBridge?.refreshWidget) {
+          await window.Capacitor.Plugins.WidgetBridge.refreshWidget();
+        }
+        toast('Widżet zsynchronizowany pomyślnie! ✔');
+      } catch (e) {
+        toast('Nie udało się zsynchronizować widżetu');
+      } finally {
+        btnSync.disabled = false;
+        btnSync.textContent = '🔄 Zsynchronizuj widżet teraz';
+      }
+    };
+  }
+
+  // Interaktywny mock widżetu na stronie
+  const mockYes = $('#mockYes', el);
+  const mockNo = $('#mockNo', el);
+  const mockNext = $('#mockNext', el);
+  const mockFeedback = $('#mockFeedback', el);
+  const mockAnswers = $('#mockAnswers', el);
+
+  if (mockYes && mockNo && mockNext) {
+    const handleAnswer = (userYes) => {
+      mockAnswers.style.display = 'none';
+      mockFeedback.style.display = 'block';
+      mockFeedback.innerHTML = userYes 
+        ? '❌ Błąd (poprawnie: NIE). Zatrzymanie przed znakiem STOP jest bezwzględnie obowiązkowe!' 
+        : '✅ Dobrze! +3 XP. Zatrzymanie przed znakiem STOP jest bezwzględnie obowiązkowe.';
+      mockNext.style.display = 'block';
+    };
+    mockYes.onclick = () => handleAnswer(true);
+    mockNo.onclick = () => handleAnswer(false);
+    mockNext.onclick = () => {
+      mockAnswers.style.display = 'flex';
+      mockFeedback.style.display = 'none';
+      mockNext.style.display = 'none';
+    };
+  }
 }

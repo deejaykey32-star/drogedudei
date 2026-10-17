@@ -17,9 +17,23 @@ http.createServer((req, res) => {
   let file = path.join(root, url);
   if (!file.startsWith(root)) { res.writeHead(403); return res.end(); }
   if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
-  fs.readFile(file, (err, data) => {
-    if (err) { res.writeHead(404); return res.end('404'); }
-    res.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-cache' });
-    res.end(data);
+
+  fs.stat(file, (err, stat) => {
+    if (err || !stat.isFile()) { res.writeHead(404); return res.end('404'); }
+    const ext = path.extname(file);
+    const headers = {
+      'Content-Type': types[ext] || 'application/octet-stream',
+      'Content-Length': stat.size,
+      'Cache-Control': 'no-cache',
+    };
+    if (ext === '.apk') {
+      headers['Content-Disposition'] = 'attachment; filename="DrogEduDei.apk"';
+    }
+    if (req.method === 'HEAD') {
+      res.writeHead(200, headers);
+      return res.end();
+    }
+    res.writeHead(200, headers);
+    fs.createReadStream(file).pipe(res);
   });
 }).listen(port, () => console.log(`DrogEduDei: http://localhost:${port}`));
