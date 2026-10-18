@@ -50,7 +50,7 @@ export function apkCardHtml({ compact = false } = {}) {
   }
 
   const host = typeof location !== 'undefined' && location.origin ? location.origin : 'https://drogedudei.pages.dev';
-  const apkPath = 'download/DrogEduDei.apk';
+  const apkPath = 'download/drogedudei.apk';
   const fullApkUrl = `${host}/${apkPath}`;
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=168x168&margin=4&data=${encodeURIComponent(fullApkUrl)}`;
 

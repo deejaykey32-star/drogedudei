@@ -19,14 +19,14 @@ export async function onRequest({ request }) {
       available: true,
       size: 15058310,
       updated: Date.now(),
-      path: "/download/DrogEduDei.apk",
-      lan: ["https://drogedudei.pages.dev/download/DrogEduDei.apk"],
+      path: "/download/drogedudei.apk",
+      lan: ["https://drogedudei.pages.dev/download/drogedudei.apk"],
     });
   }
 
   // Kod QR do pobrania APK aparatem telefonu
   if (path === "/api/download/qr") {
-    const u = url.searchParams.get("u") || "https://drogedudei.pages.dev/download/DrogEduDei.apk";
+    const u = url.searchParams.get("u") || "https://drogedudei.pages.dev/download/drogedudei.apk";
     return Response.redirect(`https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=4&data=${encodeURIComponent(u)}`, 302);
   }
 
