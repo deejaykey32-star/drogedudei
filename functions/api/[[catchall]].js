@@ -17,7 +17,7 @@ export async function onRequest({ request }) {
   if (path === "/api/download/info") {
     return jsonResponse({
       available: true,
-      size: 5976883,
+      size: 15058310,
       updated: Date.now(),
       path: "/download/DrogEduDei.apk",
       lan: ["https://drogedudei.pages.dev/download/DrogEduDei.apk"],

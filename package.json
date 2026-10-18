@@ -8,7 +8,7 @@
     "vendor": "node tools/vendor.mjs",
     "osm:build": "node tools/osm/build.mjs",
     "android:sync": "npm run vendor && npx cap sync android",
-    "android:build": "npm run android:sync && cd android && .\\gradlew.bat assembleDebug && cd .. && node tools/dist.mjs",
+    "android:build": "npm run android:sync && cd android && .\\gradlew.bat assembleRelease && cd .. && node tools/dist.mjs",
     "android:apk": "npm run android:build",
     "dist": "node tools/dist.mjs",
     "deploy:pages": "wrangler pages deploy www --project-name drogedudei --branch main"

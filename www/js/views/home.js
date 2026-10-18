@@ -60,9 +60,9 @@ export function apkCardHtml({ compact = false } = {}) {
       <span class="apk-av">${kurakSVG(64)}</span>
       <div class="grow">
         <h2>📱 DrogEduDei na Androida</h2>
-        <p class="muted" style="margin:4px 0 0">Natywna aplikacja: lektor Google TTS, widżet na pulpit telefonu, symulator WORD Katowice i pełny tryb offline · <strong>APK 5.7 MB</strong></p>
+        <p class="muted" style="margin:4px 0 0">Natywna aplikacja: lektor Google TTS, widżet na pulpit telefonu, symulator WORD Katowice i pełny tryb offline · <strong>APK 14.4 MB</strong></p>
       </div>
-      <a class="btn primary big" href="${apkPath}" download="DrogEduDei.apk">⬇ Pobierz APK · 5.7 MB</a>
+      <a class="btn primary big" href="${apkPath}" download="DrogEduDei.apk">⬇ Pobierz APK · 14.4 MB</a>
     </div>
     ${compact ? `
       <div class="row" style="margin-top:12px;justify-content:space-between">
